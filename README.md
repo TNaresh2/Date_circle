@@ -58,33 +58,46 @@ Member Reviews
 Photos Listing
 
 Photos Detailed
+## 🖼 Full Application Screenshots
 
-🖼 Screenshots Preview
-Homepage
+### Homepage
+![Homepage Screenshot](Homepage.jpg)
 
-About Us
+### About Us Page
+![About Us Screenshot](abouts.jpg)
 
-How It Works
+### How It Works Page
+![How It Works Screenshot](how-it-works.jpg)
 
-Blog Listing
+### FAQs Page
+![FAQs Screenshot](faqs.jpg)
 
-Blog Detailed
+### Blog Listing Page
+![Blog Listing Screenshot](blog_listing.jpg)
 
-Event Listing
+### Blog Detailed Page
+![Blog Detailed Screenshot](blog_detailed.jpg)
 
-Event Detailed
+### Event Listing Page
+![Event Listing Screenshot](event_listing.jpg)
 
-Member Listing
+### Event Detailed Page
+![Event Detailed Screenshot](event_detailed.jpg)
 
-Member Detailed
+### Member Listing Page
+![Member Listing Screenshot](member_listing.jpg)
 
-Photos Listing
+### Member Detailed Profile Page
+![Member Detailed Screenshot](member_detailed.jpg)
 
-Photos Detailed
+### Photos Listing Page
+![Photos Listing Screenshot](photos_listing.jpg)
 
-FAQs
+### Photos Detailed Page
+![Photos Detailed Screenshot](photos_detailed.jpg)
 
-Reviews
+### Reviews Page
+![Reviews Screenshot](reviews.jpg)
 
 👨‍💻 Author
 
