@@ -1,0 +1,267 @@
+    <meta name="description" content="Understand the physics behind the match. How MoonLoop uses gravitational algorithms to find your perfect binary star.">
+    <meta name="keywords" content="dating app algorithm, moonloop features, how it works, matchmaking physics">
+    <meta name="author" content="MoonLoop Inc.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.moonloop.com/how-it-works">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.moonloop.com/how-it-works">
+    <meta property="og:title" content="Orbital Mechanics | MoonLoop">
+    <meta property="og:description" content="The physics of connection, demystified.">
+    <meta property="og:image" content="https://placehold.co/1200x630/050A14/00F0FF.png?text=Orbital+Mechanics">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌑</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 3.4.1 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+        /* --- ROOT VARIABLES --- */
+        :root {
+            --Ml-bg-dark: #050A14; 
+            --Ml-bg-darker: #020408;
+            --Ml-text-light: #EAEAEA;
+            --Ml-text-muted: #8892B0;
+            --Ml-accent-cyan: #00F0FF;
+            --Ml-accent-purple: #BC13FE;
+            --Ml-accent-gold: #FFD700;
+            --Ml-accent-rose: #FF0055;
+            
+            --Ml-font-heading: "Outfit", sans-serif;
+            --Ml-font-body: "Nunito", sans-serif;
+            --Ml-ease-tech: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+		.Ml-step-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+.Ml-orb-visual {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;     /* icon size */
+    color: white;        /* icon color */
+}
+	.Ml-orb-visual i {
+		position: absolute;
+		top: 35%;
+		right: 35%;
+	}
+
+
+        /* --- GLOBAL BASE --- */
+        html, body {
+            width: 100%; min-height: 100%;
+            background-color: var(--Ml-bg-dark);
+            color: var(--Ml-text-light);
+            font-family: var(--Ml-font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #050A14 60%);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* 🎬 FILM GRAIN */
+        .Ml-noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+        
+        /* ☄️ ASTEROIDS */
+        .Ml-asteroid-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .Ml-asteroid { position: absolute; border-radius: 50%; background: #fff; box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.4); opacity: 0; }
+        .Ml-asteroid::after { content: ''; position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,0.5), transparent); transform-origin: left center; transform: translateY(-50%) rotate(180deg); }
+        @keyframes Ml-fly-diag-1 { 0% { transform: translate(-100px, -100px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(120vw, 120vh) rotate(45deg); opacity: 0; } }
+        .Ml-asteroid-1 { top: 0; left: 0; width: 4px; height: 4px; animation: Ml-fly-diag-1 35s linear infinite; }
+        .Ml-asteroid-2 { top: 20%; left: -100px; width: 3px; height: 3px; animation: Ml-fly-diag-1 45s linear infinite; animation-delay: 10s; }
+
+        /* Nav (Shared) */
+        .Ml-wrapper-topbar { position: fixed; top: 20px; left: 0; right: 0; z-index: 1000; padding: 0 20px; pointer-events: none; }
+        .Ml-navbar { pointer-events: auto; background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; max-width: 1140px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; }
+        .Ml-brand { font-family: var(--Ml-font-heading); font-size: 24px; font-weight: 700; color: white; z-index: 1002; }
+        .Ml-nav-links a { color: var(--Ml-text-muted); margin-left: 25px; font-size: 14px; font-weight: 600; transition: 0.3s; text-decoration: none; }
+        .Ml-nav-links a:hover, .Ml-nav-links a.active { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .Ml-mobile-toggle { display: none; color: white; font-size: 20px; cursor: pointer; z-index: 1002; }
+        .Ml-mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(20px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 20px; margin-top: 10px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 999; }
+        .Ml-mobile-menu a { display: block; padding: 15px; color: white; font-family: var(--Ml-font-heading); font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* Components */
+        .Ml-btn { display: inline-block; padding: 14px 40px; border-radius: 4px; font-family: var(--Ml-font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; border: none; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+        .Ml-btn-primary { background: var(--Ml-accent-cyan); color: #000; }
+        .Ml-btn-primary:hover { background: #fff; box-shadow: 0 0 30px var(--Ml-accent-cyan); }
+
+        /* --- HERO --- */
+        .Ml-hiw-hero { padding-top: 80px; padding-bottom: 80px; text-align: center; position: relative; z-index: 1; }
+        .Ml-hero-title { font-size: clamp(42px, 8vw, 64px); font-weight: 900; margin-bottom: 10px; color: white; line-height: 1.1; }
+        .Ml-hero-sub { color: var(--Ml-text-muted); font-size: 18px; max-width: 600px; margin: 0 auto 50px; }
+
+        /* --- TRAJECTORY TIMELINE (Vertical) --- */
+        .Ml-trajectory-container { position: relative; max-width: 900px; margin: 0 auto; padding: 40px 15px 100px; z-index: 1; }
+        
+        /* The Gravity Line */
+        .Ml-gravity-line {
+            position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
+            background: linear-gradient(180deg, transparent 0%, var(--Ml-accent-cyan) 20%, var(--Ml-accent-purple) 80%, transparent 100%);
+            transform: translateX(-50%); box-shadow: 0 0 15px var(--Ml-accent-cyan);
+        }
+
+        .Ml-step-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 120px; position: relative; }
+        .Ml-step-row:last-child { margin-bottom: 0; }
+        
+        .Ml-step-content { width: 45%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 8px; transition: 0.3s; backdrop-filter: blur(10px); }
+        .Ml-step-content:hover { border-color: var(--Ml-accent-cyan); background: rgba(255,255,255,0.05); transform: translateY(-5px); }
+        
+        .Ml-step-visual { width: 45%; display: flex; justify-content: center; align-items: center; }
+        .Ml-orb-visual { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 40px; color: white; position: relative; background: rgba(0,0,0,0.3); display:block; }
+        .Ml-orb-visual::after { content: ''; position: absolute; inset: -10px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 50%; animation: Ml-spin 20s linear infinite; }
+        @keyframes Ml-spin { 100% { transform: rotate(360deg); } }
+
+        /* Center Node */
+        .Ml-step-node {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: var(--Ml-bg-dark);
+            border: 2px solid var(--Ml-accent-cyan); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; z-index: 2;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Alternating Layout */
+        .Ml-step-row.right-aligned { flex-direction: row-reverse; }
+        
+        .Ml-step-title { font-size: 24px; color: white; margin-bottom: 10px; font-family: var(--Ml-font-heading); }
+        .Ml-step-text { color: var(--Ml-text-muted); font-size: 15px; line-height: 1.6; }
+
+        /* CTA */
+        .Ml-cta-section { text-align: center; padding: 100px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1; position: relative; }
+        
+        /* Footer */
+        .Ml-footer { padding: 80px 0 40px; border-top: 1px solid rgba(255,255,255,0.05); background: var(--Ml-bg-darker); font-size: 14px; color: var(--Ml-text-muted); position: relative; z-index: 1; }
+        .Ml-footer-col { margin-bottom: 30px; }
+        .Ml-footer-col h4 { color: white; margin-bottom: 25px; font-size: 18px; }
+        .Ml-footer-links { list-style: none; padding: 0; }
+        .Ml-footer-links li { margin-bottom: 12px; }
+        .Ml-footer-links a { color: var(--Ml-text-muted); transition: 0.3s; text-decoration: none; }
+        .Ml-footer-links a:hover { color: var(--Ml-accent-cyan); }
+        .Ml-social-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; transition: 0.3s; color: white; }
+        .Ml-social-btn:hover { background: var(--Ml-accent-cyan); color: black; }
+
+        @media (max-width: 768px) {
+            .Ml-gravity-line { left: 20px; transform: translateX(0); }
+            .Ml-step-node { left: 10px; transform: translate(-50%, -50%); }
+            .Ml-step-row { flex-direction: column; align-items: flex-start; padding-left: 60px; margin-bottom: 80px; }
+            .Ml-step-row.right-aligned { flex-direction: column; }
+            .Ml-step-content { width: 100%; margin-bottom: 20px; }
+            .Ml-step-visual { width: 100%; justify-content: flex-start; }
+            .Ml-orb-visual { width: 80px; height: 80px; font-size: 24px; }
+            
+            .Ml-nav-links { display: none; }
+            .Ml-mobile-toggle { display: block; }
+        }
+    </style>
+    <div class="Ml-noise-overlay"></div>
+    
+    <!-- ☄️ ASTEROID SYSTEM -->
+    <div class="Ml-asteroid-system">
+        <div class="Ml-asteroid Ml-asteroid-1"></div>
+        <div class="Ml-asteroid Ml-asteroid-2"></div>
+    </div>
+
+  
+
+    <div class="Ml-hiw-hero">
+        <div class="container">
+            <h1 class="Ml-hero-title">Orbital Mechanics</h1>
+            <p class="Ml-hero-sub">The physics of connection, demystified. Here is how we align your trajectory.</p>
+        </div>
+    </div>
+
+    <div class="Ml-trajectory-container">
+        <div class="Ml-gravity-line"></div>
+
+        <!-- Step 1 -->
+        <div class="Ml-step-row">
+            <div class="Ml-step-node">1</div>
+            <div class="Ml-step-content">
+                <h3 class="Ml-step-title">Signal Calibration</h3>
+                <p class="Ml-step-text">Create your pilot profile. We don't ask generic questions. We map your "Elemental Core" and "Orbital Velocity" to understand your gravitational pull.</p>
+            </div>
+           <div class="Ml-orb-visual" style="border-color:var(--Ml-accent-cyan); box-shadow:0 0 30px rgba(0,240,255,0.2);">
+    <i class="fa fa-sliders"></i>
+</div>
+
+        </div>
+
+        <!-- Step 2 -->
+        <div class="Ml-step-row right-aligned">
+            <div class="Ml-step-node">2</div>
+            <div class="Ml-step-content">
+                <h3 class="Ml-step-title">Deep Space Scan</h3>
+                <p class="Ml-step-text">Our "Gravity Engine" algorithm scans the galaxy for compatible signals. We filter out the noise and only show you profiles with high potential energy.</p>
+            </div>
+           <div class="Ml-orb-visual" style="border-color:var(--Ml-accent-purple); box-shadow:0 0 30px rgba(188,19,254,0.2);">
+    <i class="fa fa-search"></i>
+</div>
+
+        </div>
+
+        <!-- Step 3 -->
+        <div class="Ml-step-row">
+            <div class="Ml-step-node">3</div>
+            <div class="Ml-step-content">
+                <h3 class="Ml-step-title">Orbital Lock</h3>
+                <p class="Ml-step-text">When two signals align, an "Orbit" is established. Initiate contact using our high-fidelity comms array or meet at a planetary alignment event.</p>
+            </div>
+          <div class="Ml-orb-visual" style="border-color:var(--Ml-accent-gold); box-shadow:0 0 30px rgba(255,215,0,0.2);">
+    <i class="fa fa-handshake-o"></i>
+</div>
+
+        </div>
+
+    </div>
+
+    <div class="Ml-cta-section">
+        <div class="container">
+            <h2 style="color:white; margin-bottom:20px;">Ready to Launch?</h2>
+			<a  href="/modern_listing" class="Ml-btn Ml-btn-primary">Start Engine</a>
+        </div>
+    </div>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#mobile-toggle-btn').click(function() {
+            $('#mobile-menu').slideToggle();
+        });
+        
+        // Drifting Asteroids Logic
+        $(document).ready(function() {
+            if (window.matchMedia("(pointer: fine)").matches) {
+                $(document).on('mousemove', function(e) {
+                    requestAnimationFrame(() => {
+                        $('.Ml-asteroid').each(function() {
+                            const speed = 0.02;
+                            const x = (window.innerWidth - e.pageX * speed) / 100;
+                            const y = (window.innerHeight - e.pageY * speed) / 100;
+                            $(this).css('transform', `translate(${x}px, ${y}px)`);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+  
