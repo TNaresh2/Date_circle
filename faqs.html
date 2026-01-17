@@ -1,0 +1,152 @@
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌑</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Outfit:wght@300;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+	
+
+	<style>
+        :root {
+            --Ml-bg-dark: #050A14; --Ml-bg-darker: #020408; --Ml-text-light: #EAEAEA; --Ml-accent-cyan: #00F0FF; --Ml-accent-purple: #BC13FE;
+            --Ml-font-heading: "Outfit", sans-serif; --Ml-font-body: "Nunito", sans-serif;
+        }
+        body { background-color: var(--Ml-bg-dark); color: var(--Ml-text-light); font-family: var(--Ml-font-body); overflow-x: hidden; background: radial-gradient(circle at 50% 10%, #1a0b2e 0%, #050A14 60%); background-attachment:fixed; }
+        .Ml-noise-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E"); }
+        
+        /* ☄️ ASTEROIDS */
+        .Ml-asteroid-system { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .Ml-asteroid { position: absolute; border-radius: 50%; background: #fff; box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.4); opacity: 0; }
+        .Ml-asteroid::after { content: ''; position: absolute; top: 50%; left: 50%; width: 100px; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,0.5), transparent); transform-origin: left center; transform: translateY(-50%) rotate(180deg); }
+        @keyframes Ml-fly-diag-1 { 0% { transform: translate(-100px, -100px) rotate(45deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(120vw, 120vh) rotate(45deg); opacity: 0; } }
+        .Ml-asteroid-1 { top: 0; left: 0; width: 4px; height: 4px; animation: Ml-fly-diag-1 35s linear infinite; }
+        .Ml-asteroid-2 { top: 20%; left: -100px; width: 3px; height: 3px; animation: Ml-fly-diag-1 45s linear infinite; animation-delay: 10s; }
+        
+        /* Nav & Footer (Shared) */
+        .Ml-wrapper-topbar { position: fixed; top: 20px; left: 0; right: 0; z-index: 1000; padding: 0 20px; pointer-events: none; }
+        .Ml-navbar { pointer-events: auto; background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; max-width: 1140px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; }
+        .Ml-brand { font-family: var(--Ml-font-heading); font-size: 24px; font-weight: 700; color: white; z-index:1002; }
+        .Ml-nav-links a { color: var(--Ml-text-muted); margin-left: 25px; font-size: 14px; font-weight: 600; transition: 0.3s; text-decoration: none; }
+        .Ml-nav-links a:hover { color: white; }
+        .Ml-mobile-toggle { display: none; color: white; font-size: 20px; cursor: pointer; z-index:1002; }
+        .Ml-mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; margin-top: 10px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index:999; }
+        .Ml-mobile-menu a { display: block; padding: 15px; color: white; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .Ml-footer { padding: 80px 0 40px; border-top: 1px solid rgba(255,255,255,0.05); background: var(--Ml-bg-darker); font-size: 14px; color: var(--Ml-text-muted); position: relative; z-index: 1; }
+        .Ml-footer-links { list-style: none; padding: 0; }
+        .Ml-footer-links li { margin-bottom: 12px; }
+        .Ml-footer-links a { color: var(--Ml-text-muted); text-decoration: none; transition: 0.3s; }
+        .Ml-footer-links a:hover { color: var(--Ml-accent-cyan); }
+        .Ml-footer-col h4 { color: white; margin-bottom: 25px; font-size: 18px; }
+        .Ml-social-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; transition: 0.3s; color: white; }
+        .Ml-social-btn:hover { background: var(--Ml-accent-cyan); color: black; }
+        
+        /* FAQ Specific */
+        .Ml-faq-hero { padding-top: 60px; padding-bottom: 60px; text-align: center; position: relative; z-index: 1; }
+        .Ml-hero-title { font-size: clamp(48px, 8vw, 56px); font-weight: 900; color: white; margin-bottom: 10px; }
+        
+        /* Terminal Search */
+        .Ml-terminal-search {
+            max-width: 780px; margin: 0 auto 60px; background: #000; border: 1px solid var(--Ml-accent-cyan);
+            border-radius: 50px; padding: 15px 20px; display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 0 20px rgba(0,240,255,0.1); position: relative; z-index: 1;
+        }
+        .Ml-prompt { color: var(--Ml-accent-cyan); font-family: "Share Tech Mono", monospace; font-weight: 700;white-space:nowrap; }
+        .Ml-search-input { 
+            background: transparent; border: none; color: white; font-family: "Share Tech Mono", monospace; 
+            width: 100%; outline: none; font-size: 16px;
+        }
+
+        /* Accordion */
+        .Ml-faq-container { max-width: 800px; margin: 0 auto 100px; padding: 0 15px; position: relative; z-index: 1; }
+        .Ml-faq-item { margin-bottom: 20px; }
+        .Ml-faq-btn {
+            width: 100%; text-align: left; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; border-radius: 8px; color: white; font-size: 18px; font-weight: 600; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+        }
+        .Ml-faq-btn:hover, .Ml-faq-btn.active { background: rgba(255,255,255,0.08); border-color: var(--Ml-accent-purple); }
+        .Ml-faq-content { 
+            display: none; padding: 20px; border-left: 2px solid var(--Ml-accent-purple); 
+            background: rgba(255,255,255,0.01); margin-top: 5px; color: #ccc; line-height: 1.6;
+        }
+        .Ml-faq-icon { transition: 0.3s; }
+        .Ml-faq-btn.active .Ml-faq-icon { transform: rotate(180deg); color: var(--Ml-accent-purple); }
+
+        @media (max-width: 768px) { .Ml-nav-links { display: none; } .Ml-mobile-toggle { display: block; } }
+    </style>	
+    <div class="Ml-noise-overlay"></div>
+    
+    <!-- ☄️ ASTEROID SYSTEM -->
+    <div class="Ml-asteroid-system">
+        <div class="Ml-asteroid Ml-asteroid-1"></div>
+        <div class="Ml-asteroid Ml-asteroid-2"></div>
+    </div>
+
+  
+
+    <div class="Ml-faq-hero">
+        <div class="container">
+            <h1 class="Ml-hero-title">Knowledge Base</h1>
+            <p style="color:#888;">Access protocols and operational guides.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="Ml-terminal-search">
+            <span class="Ml-prompt">> QUERY:</span>
+            <input type="text" class="Ml-search-input" placeholder="How does the gravity engine work?">
+        </div>
+        
+        <div class="Ml-faq-container">
+            <div class="Ml-faq-item">
+                <button class="Ml-faq-btn">What is the Gravity Engine? <i class="fa fa-chevron-down Ml-faq-icon"></i></button>
+                <div class="Ml-faq-content">
+                    The Gravity Engine is our proprietary matching algorithm. Unlike simple swipe apps, it analyzes 45 distinct data points including communication style, core values, and activity rhythms to calculate your "Gravitational Pull" toward other users.
+                </div>
+            </div>
+            <div class="Ml-faq-item">
+                <button class="Ml-faq-btn">Is my profile visible to everyone? <i class="fa fa-chevron-down Ml-faq-icon"></i></button>
+                <div class="Ml-faq-content">
+                    By default, yes. However, Commander Level members can activate "Stealth Mode," which allows you to visit profiles without leaving a trace and only be visible to people you have explicitly liked.
+                </div>
+            </div>
+            <div class="Ml-faq-item">
+                <button class="Ml-faq-btn">How do I verify my signal? <i class="fa fa-chevron-down Ml-faq-icon"></i></button>
+                <div class="Ml-faq-content">
+                    Signal Verification (Blue Check) requires a photo scan and a linked social media account. Go to Settings > Signal Strength to initiate the protocol.
+                </div>
+            </div>
+            <div class="Ml-faq-item">
+                <button class="Ml-faq-btn">How do I delete my flight log? <i class="fa fa-chevron-down Ml-faq-icon"></i></button>
+                <div class="Ml-faq-content">
+                    You can deactivate or permanently delete your account in the Settings menu under "Flight Termination." Note that deletion is irreversible.
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$('.Ml-faq-btn').first().addClass('active').next('.Ml-faq-content').show();
+        $('#mobile-toggle').click(function() { $('#mobile-menu').slideToggle(); });
+        $('.Ml-faq-btn').click(function() {
+            $(this).toggleClass('active');
+            $(this).next('.Ml-faq-content').slideToggle();
+        });
+        
+        // Drifting Asteroids Logic
+        $(document).ready(function() {
+            if (window.matchMedia("(pointer: fine)").matches) {
+                $(document).on('mousemove', function(e) {
+                    requestAnimationFrame(() => {
+                        $('.Ml-asteroid').each(function() {
+                            const speed = 0.02;
+                            const x = (window.innerWidth - e.pageX * speed) / 100;
+                            const y = (window.innerHeight - e.pageY * speed) / 100;
+                            $(this).css('transform', `translate(${x}px, ${y}px)`);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
